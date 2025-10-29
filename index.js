@@ -4,7 +4,7 @@ const app = express();
 
 // ==== TO'LIQ MA'LUMOTLAR ==== 
 const TOKEN = '8353179858:AAFMgCR5KLWOh7-4Tid-A4x1RAwPd3-Y9xE';
-const DOMAIN = 'https://islomxon-bot.onrender.com'; // Render.com linkingiz
+const DOMAIN = 'https://islomxonbot-asosiy.onrender.com'; // Render.com linkingiz
 const CHANNEL = '@Islomxon_masjidi';
 const ADMIN_IDS = ['5985723887']; // Siz istagan adminlar IDlari
 
