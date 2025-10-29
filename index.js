@@ -1,26 +1,19 @@
 const { Telegraf } = require('telegraf');
 const express = require('express');
-
 const app = express();
-const TOKEN = process.env.TOKEN; // Bot token
+
+// ==== TO'LIQ MA'LUMOTLAR ==== 
+const TOKEN = '8353179858:AAFMgCR5KLWOh7-4Tid-A4x1RAwPd3-Y9xE';
+const DOMAIN = 'https://islomxon-bot.onrender.com'; // Render.com linkingiz
+const CHANNEL = '@Islomxon_masjidi';
+const ADMIN_IDS = ['5985723887']; // Siz istagan adminlar IDlari
+
 const bot = new Telegraf(TOKEN);
 
-// Adminlar va kanal
-const ADMIN_IDS = [5985723887]; // Siz bergan ID
-const DOMAIN = process.env.DOMAIN; // Render URL, masalan: https://islomxon-bot.onrender.com
-const CHANNEL = '@Islomxon_masjidi';
-
-// Web App faylini yuborish
-app.get('/webapp.html', (req, res) => {
-  res.sendFile(__dirname + '/webapp.html');
-});
-
-// Webhook callback
 app.use(bot.webhookCallback('/bot-webhook'));
 
-// /start buyrug‘i
 bot.command('start', (ctx) => {
-  if (!ADMIN_IDS.includes(ctx.from.id)) return ctx.reply('Faqat adminlar.');
+  if (!ADMIN_IDS.includes(ctx.from.id.toString())) return ctx.reply('Faqat admin.');
   ctx.reply('Islomxon jome masjidi\nNamoz vaqtlarini yuborish:', {
     reply_markup: {
       inline_keyboard: [[
@@ -30,14 +23,8 @@ bot.command('start', (ctx) => {
   });
 });
 
-// /id buyrug‘i
-bot.command('id', (ctx) => {
-  ctx.reply(`ID: ${ctx.from.id}`);
-});
-
-// Web App orqali yuborilgan ma’lumotlarni kanalga post qilish
 bot.on('web_app_data', async (ctx) => {
-  if (!ADMIN_IDS.includes(ctx.from.id)) return;
+  if (!ADMIN_IDS.includes(ctx.from.id.toString())) return;
 
   try {
     const data = JSON.parse(ctx.webAppData.data);
@@ -52,15 +39,11 @@ Asr: ${data.asr}
 Shom: ${data.shom}
 Hufton: ${data.hufton}
 
-${data.izoh}
+⏳Намозни адо этганингиздан сўнг, Аллоҳни турган, ўтирган ва ёнбошлаган ҳолингизда эсланг. Хотиржам бўлганингизда намозни тўлиқ адо этинг. Албатта, намоз мўминларга вақтида фарз қилингандир. (Нисо сураси 103-оят) 📍 Ҳудудингиз учун тўғри вақтда ибодатни адо этинг. Аллоҳ ҳар бир қадамимизни савобли қилсин! 📤Ушбу маълумотни яқинларизга улашиб савобимизга шерик бўлинг!
 
-Hududingiz uchun to'g'ri vaqtlarda namoz o'qing!
-Allah qabul qilsin!
-
-https://t.me/Islomxon_masjidi`;
+${CHANNEL}`;
 
     await bot.telegram.sendMessage(CHANNEL, text);
-
     await ctx.reply('Post kanalga yuborildi!', {
       reply_markup: { inline_keyboard: [[{ text: 'Kanalga o‘tish', url: 'https://t.me/Islomxon_masjidi' }]] }
     });
@@ -70,13 +53,11 @@ https://t.me/Islomxon_masjidi`;
   }
 });
 
-// Webhook o‘rnatish
 (async () => {
   await bot.telegram.setWebhook(`${DOMAIN}/bot-webhook`);
   console.log('Webhook o‘rnatildi');
 })();
 
-// Server port
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server ishlayapti: ${DOMAIN}/webapp.html`);
