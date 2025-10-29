@@ -1,57 +1,60 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Islomxon Jome Masjidi</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <style>
-    body { background: #43AB34; font-family: sans-serif; padding:20px; color:white; }
-    .card { background: rgba(255,255,255,0.15); padding:20px; border-radius:20px; max-width:400px; margin:auto; }
-    label { display:block; margin-top:10px; }
-    input, textarea { width:100%; padding:8px; border:none; border-radius:10px; margin-top:4px; }
-    button { margin-top:16px; padding:12px; border:none; border-radius:12px; width:100%; cursor:pointer; font-weight:600; }
-    #preview { background: rgba(0,0,0,0.2); padding:10px; border-radius:12px; margin-top:12px; display:none; white-space:pre-line; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Islomxon Jome Masjidi</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background: linear-gradient(135deg,#1B5E20,#43AB34); font-family:sans-serif; color:white; padding:20px; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+  .card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius:25px; padding:30px; max-width:400px; width:100%; box-shadow:0 8px 25px rgba(0,0,0,0.3); }
+  h1 { text-align:center; margin-bottom:5px; font-size:24px; font-weight:600; }
+  p.subtitle { text-align:center; font-size:14px; opacity:0.8; margin-bottom:20px; }
+  .field { margin-bottom:15px; }
+  label { display:block; margin-bottom:5px; font-weight:500; }
+  input, textarea { width:100%; padding:12px; border:none; border-radius:12px; background:rgba(255,255,255,0.2); color:white; font-size:16px; }
+  textarea { height:90px; resize:none; }
+  .btn { width:100%; padding:14px; border:none; border-radius:14px; background:#FFFFFF; color:#1B5E20; font-size:16px; font-weight:600; cursor:pointer; margin-top:10px; transition:.2s; }
+  .btn:hover { transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,0.3); }
+  .preview { margin-top:10px; padding:14px; border-radius:12px; background:rgba(0,0,0,0.2); display:none; white-space:pre-line; }
+  .preview.show { display:block; }
+</style>
 </head>
 <body>
-  <div class="card">
-    <h2>Islomxon Jome Masjidi</h2>
-    <p>Bugungi namoz vaqtlarini kiriting</p>
+<div class="card">
+<h1>Islomxon Jome Masjidi</h1>
+<p class="subtitle">Bugungi namoz vaqtlarini kiriting</p>
 
-    <label>Sana</label><input type="date" id="date">
-    <label>Bomdod</label><input type="time" id="bomdod">
-    <label>Peshin</label><input type="time" id="peshin">
-    <label>Asr</label><input type="time" id="asr">
-    <label>Shom</label><input type="time" id="shom">
-    <label>Hufton</label><input type="time" id="hufton">
-    <label>Izoh</label><textarea id="izoh">⏳Намозни адо этганингиздан сўнг, Аллоҳни турган, ўтирган ва ёнбошлаган ҳолингизда эсланг. Хотиржам бўлганингизда намозни тўлиқ адо этинг. Албатта, намоз мўминларга вақтида фарз қилингандир. (Нисо сураси 103-оят) 📍 Ҳудудингиз учун тўғри вақтда ибодатни адо этинг. Аллоҳ ҳар бир қадамимизни савобли қилсин! 📤Ушбу маълумотни яқинларизга улашиб савобимизга шерик бўлинг!</textarea>
+<div class="field"><label>Sana</label><input type="date" id="date"></div>
+<div class="field"><label>Bomdod</label><input type="time" id="bomdod"></div>
+<div class="field"><label>Peshin</label><input type="time" id="peshin"></div>
+<div class="field"><label>Asr</label><input type="time" id="asr"></div>
+<div class="field"><label>Shom</label><input type="time" id="shom"></div>
+<div class="field"><label>Hufton</label><input type="time" id="hufton"></div>
+<div class="field"><label>Izoh</label>
+<textarea id="izoh">⏳Намозни адо этганингиздан сўнг, Аллоҳни турган, ўтирган ва ёнбошлаган ҳолингизда эсланг. Хотиржам бўлганингизда намозни тўлиқ адо этинг. Албатта, намоз мўминларга вақтида фарз қилингандир. (Нисо сураси 103-оят) 📍 Ҳудудингиз учун тўғри вақтда ибодатни адо этинг. Аллоҳ ҳар бир қадамимизни савобли қилсин! 📤Ушбу маълумотни яқинларизга улашиб савобимизга шерик бўлинг!</textarea></div>
 
-    <button onclick="showPreview()">Ko‘rish</button>
-    <div id="preview"></div>
-    <button id="sendBtn" onclick="sendData()" style="display:none; background:#4CAF50; color:white;">YUBORISH</button>
-  </div>
+<button class="btn" onclick="showPreview()">Ko‘rish</button>
+<div id="preview" class="preview"></div>
+<button class="btn" id="sendBtn" onclick="sendData()" style="display:none; background:#4CAF50; color:white;">YUBORISH</button>
+</div>
 
-  <script>
-    document.getElementById('date').value = new Date().toISOString().split('T')[0];
+<script>
+document.getElementById('date').value = new Date().toISOString().split('T')[0];
 
-    function showPreview() {
-      const d = {
-        date: document.getElementById('date').value,
-        bomdod: document.getElementById('bomdod').value,
-        peshin: document.getElementById('peshin').value,
-        asr: document.getElementById('asr').value,
-        shom: document.getElementById('shom').value,
-        hufton: document.getElementById('hufton').value,
-        izoh: document.getElementById('izoh').value.trim()
-      };
-
-      if (!d.date || !d.bomdod || !d.peshin || !d.asr || !d.shom || !d.hufton) {
-        alert('Barcha vaqtlar to‘ldirilsin!');
-        return;
-      }
-
-      const text = `Islomxon jome masjidi
+function showPreview(){
+  const d={
+    date:document.getElementById('date').value,
+    bomdod:document.getElementById('bomdod').value,
+    peshin:document.getElementById('peshin').value,
+    asr:document.getElementById('asr').value,
+    shom:document.getElementById('shom').value,
+    hufton:document.getElementById('hufton').value,
+    izoh:document.getElementById('izoh').value.trim()
+  };
+  if(!d.date||!d.bomdod||!d.peshin||!d.asr||!d.shom||!d.hufton){alert('Barcha vaqtlar to‘ldirilsin!');return;}
+  const text=`Islomxon jome masjidi
 
 Sana: ${d.date}
 Bomdod: ${d.bomdod}
@@ -62,26 +65,28 @@ Hufton: ${d.hufton}
 
 ${d.izoh}
 
-Hududingiz uchun to'g'ri vaqtlarda namoz o'qing!`;
+Hududingiz uchun to'g'ri vaqtlarda namoz o'qing!
+Allah qabul qilsin!`;
 
-      document.getElementById('preview').innerText = text;
-      document.getElementById('preview').style.display = 'block';
-      document.getElementById('sendBtn').style.display = 'block';
-    }
+  document.getElementById('preview').innerText=text;
+  document.getElementById('preview').classList.add('show');
+  document.getElementById('sendBtn').style.display='block';
+  document.querySelector('.btn').style.display='none';
+}
 
-    function sendData() {
-      const d = {
-        date: document.getElementById('date').value,
-        bomdod: document.getElementById('bomdod').value,
-        peshin: document.getElementById('peshin').value,
-        asr: document.getElementById('asr').value,
-        shom: document.getElementById('shom').value,
-        hufton: document.getElementById('hufton').value,
-        izoh: document.getElementById('izoh').value.trim()
-      };
-      Telegram.WebApp.sendData(JSON.stringify(d));
-      Telegram.WebApp.close();
-    }
-  </script>
+function sendData(){
+  const d={
+    date:document.getElementById('date').value,
+    bomdod:document.getElementById('bomdod').value,
+    peshin:document.getElementById('peshin').value,
+    asr:document.getElementById('asr').value,
+    shom:document.getElementById('shom').value,
+    hufton:document.getElementById('hufton').value,
+    izoh:document.getElementById('izoh').value.trim()
+  };
+  Telegram.WebApp.sendData(JSON.stringify(d));
+  Telegram.WebApp.close();
+}
+</script>
 </body>
 </html>
